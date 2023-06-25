@@ -1,26 +1,32 @@
 const fs = require('fs')
 
+var fetchNotes = () => {
+    try {   // fetch any existing notes
+        var notesString = fs.readFileSync('notes-data.json')    // read notes from the file    // could throw an error that there are no data
+        return JSON.parse(notesString)  // return the notes objectified  // return to the calling function  // could throw a typing error
+    } catch (e) {
+        return [];
+    }
+}
+
+var saveNotes = (notes) => {
+    fs.writeFileSync('notes-data.json', JSON.stringify(notes))  // save the data to the file
+}
+
 var addNote = (title, body) => {
-    var notes = []
+    var notes = fetchNotes();
     var note = {
         title,
         body
     }
 
-    try {   // fetch any existing notes
-        var notesString = fs.readFileSync('notes-data.json')    // could throw an error that there are no data
-        notes = JSON.parse(notesString) // could throw a typing error
-    } catch (e) {
-
-    }
-
-    var duplicateNotes = notes.filter((note) => {   // check for duplicates
-        note.title === title
-    })
+    var duplicateNotes = notes.filter((note) => note.title === title)   // checking for duplicates
 
     if (duplicateNotes.length === 0) {
         notes.push(note)
-        fs.writeFileSync('notes-data.json', JSON.stringify(notes))  // save the data to the file
+        saveNotes(notes);
+
+        return note;    // returned to whoever call the function
     }
 }
 
@@ -31,7 +37,11 @@ var getNote = (title) => {
     console.log('Getting note', title)
 }
 var deleteNote = (title) => {
-    console.log('Deleting note', title)
+    var notes = fetchNotes();
+    var filterd = notes.filter((note) => note.title !== title)
+    saveNotes(filterd)
+    
+    return notes.length !== filterd.length
 }
 
 module.exports = {

@@ -12,13 +12,23 @@ console.log(`Command: ${command}`)
 console.log('Yargs', argv);  // showing the arguments wrote in the command line using yargs
 
 if (command === 'add') {    // using this argument to write to the command
-    notes.addNote(argv.title, argv.body);
+    var note = notes.addNote(argv.title, argv.body);    // store the result of calling the function addNote
+    if (note) {
+        console.log("Note Created!")
+        console.log("---")
+        console.log(`Title = ${note.title}`)
+        console.log(`Body = ${note.body}`)
+    } else {
+        console.log("NOTE TITLE TAKEN!");
+    }
 } else if (command === 'list') {
     notes.getAll();
 } else if (command === 'read') {
     notes.getNote(argv.title);
 } else if (command === 'delete') {
-    notes.deleteNote(argv.title)
+    var noteDeleted = notes.deleteNote(argv.title)
+    var message = noteDeleted ? 'Note Deleted' : 'NOTE NOT FOUND!'
+    console.log(message)
 } else {
     console.log('Command not recognized')
 }
