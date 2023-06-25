@@ -20,9 +20,9 @@ var addNote = (title, body) => {
         body
     }
 
-    var duplicateNotes = notes.filter((note) => note.title === title)   // checking for duplicates
+    var duplicateNotes = notes.filter((note) => note.title === title)   // checking for duplicates, return the notes with the same title
 
-    if (duplicateNotes.length === 0) {
+    if (duplicateNotes.length === 0) {  // check if theres no duplicates
         notes.push(note)
         saveNotes(notes);
 
@@ -38,9 +38,9 @@ var getNote = (title) => {
 }
 var deleteNote = (title) => {
     var notes = fetchNotes();
-    var filterd = notes.filter((note) => note.title !== title)
+    var filterd = notes.filter((note) => note.title !== title)  // return all notes with the title different from the one entered
     saveNotes(filterd)
-    
+
     return notes.length !== filterd.length
 }
 
