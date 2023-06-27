@@ -31,13 +31,15 @@ var addNote = (title, body) => {
 }
 
 var getAll = () => {
-    console.log('Getting all notes')
+    return fetchNotes();
 }
+
 var getNote = (title) => {
     var notes = fetchNotes();
-    var filterd = notes.filter((note) => note.title === title);
-    return filterd[0];
+    var filterd = notes.filter((note) => note.title === title); // return it in an array
+    return filterd[0];  // get the first item in the array
 }
+
 var deleteNote = (title) => {
     var notes = fetchNotes();
     var filterd = notes.filter((note) => note.title !== title)  // return all notes with the title different from the one entered
