@@ -15,16 +15,20 @@ if (command === 'add') {    // using this argument to write to the command
     var note = notes.addNote(argv.title, argv.body);    // store the result of calling the function addNote
     if (note) {
         console.log("Note Created!")
-        console.log("---")
-        console.log(`Title = ${note.title}`)
-        console.log(`Body = ${note.body}`)
+        notes.logNote(note)
     } else {
         console.log("NOTE TITLE TAKEN!");
     }
 } else if (command === 'list') {
     notes.getAll();
 } else if (command === 'read') {
-    notes.getNote(argv.title);
+    var note = notes.getNote(argv.title);
+    if (note) {
+        console.log("Note Read!")
+        notes.logNote(note)
+    } else {
+        console.log("NOTE NOT FOUND!");
+    }
 } else if (command === 'delete') {
     var noteDeleted = notes.deleteNote(argv.title)
     var message = noteDeleted ? 'Note Deleted' : 'NOTE NOT FOUND!'
